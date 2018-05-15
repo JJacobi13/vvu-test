@@ -16,12 +16,10 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VacanciesController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('users.index'));
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('users', UsersController::class);
 Route::resource('teams', TeamsController::class);

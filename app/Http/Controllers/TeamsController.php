@@ -11,10 +11,26 @@ class TeamsController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      */
     public function index()
     {
-        //
+        $teams = Team::all();
+
+        $datatable = \Lava::DataTable();
+        $datatable->addStringColumn('Team');
+        $datatable->addNumberColumn('Punten');
+        foreach ($teams as $team){
+            $datatable->addRow([$team->name, $team->getPoints()]);
+        }
+
+        $barchart = \Lava::BarChart('points', $datatable);
+
+        return view('teams.index', compact('teams', 'barchart'));
     }
 
     /**

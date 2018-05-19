@@ -33,8 +33,22 @@ class Team extends Model
         return $this->hasOne(Team::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function vacancies()
     {
         return $this->hasMany(Vacancy::class);
+    }
+
+    public function getPoints()
+    {
+        return $this->join('users', 'users.team_id', 'teams.id')
+            ->join('user_vacancy', 'user_vacancy.user_id', 'users.id')
+            ->join('vacancies', 'user_vacancy.vacancy_id', 'vacancies.id')
+            ->where('teams.id', $this->id)
+            ->sum('vacancies.points');
     }
 }

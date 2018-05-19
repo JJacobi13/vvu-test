@@ -49,4 +49,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function vacancies()
+    {
+        return $this->belongsToMany(Vacancy::class);
+    }
+
 }
